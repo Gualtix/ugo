@@ -4,3 +4,12 @@
 @import "../node_modules/primeng/resources/themes/omega/theme.css";
 
 
+.conti{
+    margin: auto;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(48, 175, 16);
+    background-color: rgb(107, 221, 177);
+}
+
+

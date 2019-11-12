@@ -1,0 +1,27 @@
+#tbc{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-column-gap: 0px;
+    width: 750px;
+    height: 700px;
+}
+
+#tree{
+    width: 100%;
+    height: 100%;
+}
+
+#block{
+    width: 100%;
+    height: 100%;
+}
+
+#controls{
+    width: 750px;
+    height: 150px;
+}
+
+#info{
+    width: 750px;
+    height: 150px;
+}
