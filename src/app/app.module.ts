@@ -7,6 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TreeModule } from 'primeng/tree';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { FseditComponent } from './components/fsedit/fsedit.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 @NgModule({
   imports: [
@@ -15,9 +20,10 @@ import { TreeModule } from 'primeng/tree';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    TreeModule
+    TreeModule,
+    AppRoutingModule
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, NavigationComponent, WelcomeComponent, FseditComponent, ReportsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
