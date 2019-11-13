@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/api';
+import { FsyncService } from '../../services/fsync.service';
 
 
 @Component({
@@ -10,8 +11,9 @@ import { TreeNode } from 'primeng/api';
 export class FseditComponent implements OnInit {
 
   files: TreeNode[];
+  JSonTree: any = [];
 
-  constructor() { }
+  constructor(private FSY:FsyncService) { }
 
   ngOnInit() {
     this.files = [
@@ -62,10 +64,31 @@ export class FseditComponent implements OnInit {
               }]
       }
   ]
+
+  //this.FSY.getFSJson("desdecannola");
+  this.getFSJSon("MetodoDiferntexD");
+  //console.log(this.JSonTree);
+
+  }
+
+  imprime(){
+    console.log(this.JSonTree.dt);
+    this.files = this.JSonTree.dt;
+  }
+
+  getFSJSon(id:string){
+    this.FSY.getFSJson(id)
+      .subscribe(
+        res => {
+          this.JSonTree = res;
+          console.log(res);
+          //this.getGames();
+        },
+        err => console.error(err)
+      )
   }
 
   nodeSelect(evt: any): void {
     console.log(evt.node);
   }
-
 }
