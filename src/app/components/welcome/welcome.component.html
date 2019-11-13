@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <blockquote class="blockquote mb-0">
-        <p>"Sin Lugar a Dudas el mejor sistema gestor de datos"</p>
+        <p>"{{slogan}}"</p>
         <footer class="blockquote-footer">Walter Morales <cite title="Source Title">FullStack Developer</cite></footer>
       </blockquote>
     </div>
@@ -36,26 +36,24 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Usuario:</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input type="text" [(ngModel)] = "username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Password:</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input type="text" [(ngModel)] = "password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       </div>
 
-      <button type="button" class="btn btn-success" style="width: 100%">Ingesar</button>
+      <button type="button" (click)="authenticate()" class="btn btn-success" style="width: 100%">Ingesar</button>
 
       <br/>
       <br/>
 
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Status!</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+
+      <div class="alert alert-danger" role="alert">
+          <strong>{{status}}!</strong>
       </div>
 
 
@@ -74,8 +72,7 @@
   <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
     <div class="card-header">Mision</div>
     <div class="card-body">
-      <h5 class="card-title">Danger card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p class="card-text"><strong>{{mision}}</strong></p>
     </div>
   </div>
 
@@ -83,8 +80,7 @@
   <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
     <div class="card-header">Vision</div>
     <div class="card-body">
-      <h5 class="card-title">Success card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p class="card-text"><strong>{{vision}}</strong></p>
     </div>
   </div>
 
@@ -92,8 +88,7 @@
   <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
     <div class="card-header">About me</div>
     <div class="card-body">
-      <h5 class="card-title">Warning card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <p class="card-text"><strong>{{about}}</strong></p>
     </div>
   </div>
 </div>

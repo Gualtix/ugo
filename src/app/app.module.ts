@@ -13,7 +13,8 @@ import { FseditComponent } from './components/fsedit/fsedit.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
-import { FsyncService } from './services/fsync.service'
+import { FsyncService } from './services/fsync.service';
+
 
 
 

@@ -14,6 +14,14 @@ export class FsyncService {
     
   }
 
+  authenticate(usn: string,psw:string){
+    return this.http.post(`${this.API_URI}/user/authenticate`, {username: usn,password: psw});
+  }
+
+  getWelcomeInfo(){
+    return this.http.get(`${this.API_URI}/welcome`);
+  }
+
 
   getFSJson(user_id: string) {
     var config = {
@@ -24,29 +32,4 @@ export class FsyncService {
     //this.http.post(this.API_URI+"/sync/pull_fs",{usid: user_id},config);
     return this.http.post(`${this.API_URI}/sync/pull_fs`, {usid: user_id});
   }
-
-
-
-  /*
-  async getFSJson(user_id:string){
-
-    var RT;
-    var config = {
-      headers: { 'Content-type': 'application/json' },
-      'dataType': 'json'
-    };
-
-    await this.http.post(this.API_URI+"/sync/pull_fs",{usid: user_id},config).subscribe(
-        response => {
-          //console.log(response.dt);
-          RT = response.dt;
-          
-      }
-    );
-
-    console.log(RT);
-
-    //console.log(RT);
-  }
-  */
 }
