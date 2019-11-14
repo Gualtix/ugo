@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { FsyncService } from '../../services/fsync.service';
+import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { Inject } from '@angular/core'; 
+
 
 
 @Component({
@@ -10,65 +13,67 @@ import { FsyncService } from '../../services/fsync.service';
 })
 export class FseditComponent implements OnInit {
 
+  //@HostBinding('class') classes = 'row';
+
   files: TreeNode[];
   JSonTree: any = [];
 
-  constructor(private FSY:FsyncService) { }
+  data: any=[];
+  UserLogged: any;
+
+
+  GroupName :string = "";
+  Montaje   :string = "";
+  Disco     :string = "";
+  Particion :string = "";
+  Roll      :string = "";
+  Cliente   :string = "";
+
+  TreeScope :any = [];
+
+  
+
+
+  constructor(private FSY:FsyncService,@Inject(LOCAL_STORAGE) private storage: WebStorageService,) { }
 
   ngOnInit() {
-    this.files = [
-      {
-          "label": "Documents",
-          "data": "Documents Folder",
-          "expandedIcon": "fa fa-folder-open",
-          "collapsedIcon": "fa fa-folder",
-          "children": [{
-                  "label": "Work",
-                  "data": "Work Folder",
-                  "expandedIcon": "fa fa-folder-open",
-                  "collapsedIcon": "fa fa-folder",
-                  "children": [{"label": "Expenses.doc", "icon": "fa fa-file-word-o", "data": "Expenses Document"}, {"label": "Resume.doc", "icon": "fa fa-file-word-o", "data": "Resume Document"}]
-              },
-              {
-                  "label": "Home",
-                  "data": "Home Folder",
-                  "expandedIcon": "fa fa-folder-open",
-                  "collapsedIcon": "fa fa-folder",
-                  "children": [{"label": "Invoices.txt", "icon": "fa fa-file-word-o", "data": "Invoices for this month"}]
-              }]
-      },
-      {
-          "label": "Pictures",
-          "data": "Pictures Folder",
-          "expandedIcon": "fa fa-folder-open",
-          "collapsedIcon": "fa fa-folder",
-          "children": [
-              {"label": "barcelona.jpg", "icon": "fa fa-file-image-o", "data": "Barcelona Photo"},
-              {"label": "logo.jpg", "icon": "fa fa-file-image-o", "data": "PrimeFaces Logo"},
-              {"label": "primeui.png", "icon": "fa fa-file-image-o", "data": "PrimeUI Logo"}]
-      },
-      {
-          "label": "Movies",
-          "data": "Movies Folder",
-          "expandedIcon": "fa fa-folder-open",
-          "collapsedIcon": "fa fa-folder",
-          "children": [{
-                  "label": "Al Pacino",
-                  "data": "Pacino Movies",
-                  "children": [{"label": "Scarface", "icon": "fa fa-file-video-o", "data": "Scarface Movie"}, {"label": "Serpico", "icon": "fa fa-file-video-o", "data": "Serpico Movie"}]
-              },
-              {
-                  "label": "Robert De Niro",
-                  "data": "De Niro Movies",
-                  "children": [{"label": "Goodfellas", "icon": "fa fa-file-video-o", "data": "Goodfellas Movie"}, {"label": "Untouchables", "icon": "fa fa-file-video-o", "data": "Untouchables Movie"}]
-              }]
-      }
-  ]
+    this.getFromLocal("userlogged");
+    let userid = this.data['userlogged'];
+    this.getFSJSon(userid);
+    this.getUser(userid);
+  }
 
-  //this.FSY.getFSJson("desdecannola");
-  this.getFSJSon("MetodoDiferntexD");
-  //console.log(this.JSonTree);
+  setUserInfo(){
+    let GID: string = this.UserLogged.ID;
 
+    let Params = GID.split('#');
+
+    this.Disco     = Params[0];
+    this.Particion = Params[1];
+    this.Cliente = this.UserLogged.NOMBRE;
+    if(this.UserLogged.FK_ROLEID_ID == 0){
+      this.Roll = 'Usuario';
+    }
+
+    else if(this.UserLogged.FK_ROLEID_ID == 1){
+      this.Roll = 'Root';
+    }
+    else{
+      this.Roll = 'Administrador';
+    }
+
+    this.Montaje   = this.UserLogged.MOUNT;
+    this.GroupName = this.UserLogged.GRUPO;
+  }
+
+  getUser(userid:string){
+    this.FSY.getUser(userid).subscribe(
+      res => {
+        this.UserLogged = res;
+        this.setUserInfo();
+      },
+      err => console.error(err)
+    );
   }
 
   imprime(){
@@ -80,15 +85,38 @@ export class FseditComponent implements OnInit {
     this.FSY.getFSJson(id)
       .subscribe(
         res => {
-          this.JSonTree = res;
-          console.log(res);
-          //this.getGames();
+          this.JSonTree = (<any>res).dt;
+          this.files = this.JSonTree;
         },
         err => console.error(err)
-      )
+      );
+  }
+
+  
+
+  saveInLocal(key, val): void {
+    //console.log('recieved= key:' + key + 'value:' + val);
+    this.storage.set(key, val);
+    this.data[key]= this.storage.get(key);
+  }
+
+  getFromLocal(key): void {
+    //console.log('recieved= key:' + key);
+    this.data[key]= this.storage.get(key);
+    //console.log(this.data);
   }
 
   nodeSelect(evt: any): void {
-    console.log(evt.node);
+    this.TreeScope = [];
+    //console.log(evt.node.label);
+    let Ch = evt.node.children;
+    let i = 0;
+    let n = Ch.length;
+    while(i < n){
+      this.TreeScope.push({label:Ch[i].label,type:Ch[i].type,img_url:Ch[i].img_url});
+      i++;
+    }
+
+    console.log(this.TreeScope);
   }
 }

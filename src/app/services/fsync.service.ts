@@ -22,14 +22,12 @@ export class FsyncService {
     return this.http.get(`${this.API_URI}/welcome`);
   }
 
+  getUser(user_id: string){
+    return this.http.post(`${this.API_URI}/user`, {usid: user_id});
+  }
+
 
   getFSJson(user_id: string) {
-    var config = {
-      headers: { 'Content-type': 'application/json' },
-      'dataType': 'json'
-    };
-    //return this.http.get(`${this.API_URI}/sync/pull_fs/${id}`);
-    //this.http.post(this.API_URI+"/sync/pull_fs",{usid: user_id},config);
     return this.http.post(`${this.API_URI}/sync/pull_fs`, {usid: user_id});
   }
 }

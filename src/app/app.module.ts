@@ -14,6 +14,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
 import { FsyncService } from './services/fsync.service';
+import { StorageServiceModule} from 'angular-webstorage-service';
 
 
 
@@ -26,7 +27,8 @@ import { FsyncService } from './services/fsync.service';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     TreeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StorageServiceModule
   ],
   providers:[
     FsyncService

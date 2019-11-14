@@ -1,6 +1,84 @@
 <br/>
 <div id="info" class="conti">
-    <button class="btn btn-primary" (click)="imprime()">Click Event</button>
+
+    
+    <div class="form-row">
+
+
+
+
+      <div class="col-md-4 mb-3">
+        <div class="input-group" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(200, 255, 0)" id="inputGroupPrepend">
+              <strong>Disco:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "Disco">
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="input-group" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(200, 255, 0)" id="inputGroupPrepend">
+              <strong>Particion:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "Particion">
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="input-group" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(200, 255, 0)" id="inputGroupPrepend">
+              <strong>Montaje:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "Montaje">
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="input-group" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(200, 255, 0)" id="inputGroupPrepend">
+              <strong>Cliente:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "Cliente">
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="input-group" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(200, 255, 0)" id="inputGroupPrepend">
+              <strong>Grupo:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "GroupName">
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="input-group" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(200, 255, 0)" id="inputGroupPrepend">
+              <strong>Roll:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "Roll">
+        </div>
+      </div>
+       
+
+
+
+    </div>
+
+
 </div>
 <br/>
 <div id="tbc" class="conti">
@@ -9,10 +87,45 @@
   </div>
   <div id="block" class="conti">
 
+      <div fxLayout="row" class="col-md-4 mb-3"  *ngFor="let game of TreeScope">
+          <div class="card text-center">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+              {{game.label}}
+            </div>
+            <img class="card-img-top" [src]="game.img_url">
+            <div class="card-body">
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </div>
 </div>
 <br/>
 <div id="controls" class="conti">
-  
+  <button class="btn btn-primary" >Log Out</button>
 </div>
 <br/>
