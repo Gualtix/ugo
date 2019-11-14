@@ -4,8 +4,6 @@ import { FsyncService } from '../../services/fsync.service';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
 
-
-
 @Component({
   selector: 'app-fsedit',
   templateUrl: './fsedit.component.html',

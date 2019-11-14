@@ -17,8 +17,6 @@ import { FsyncService } from './services/fsync.service';
 import { StorageServiceModule} from 'angular-webstorage-service';
 
 
-
-
 @NgModule({
   imports: [
     BrowserModule,

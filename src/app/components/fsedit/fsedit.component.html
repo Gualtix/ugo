@@ -85,35 +85,22 @@
   <div id="tree" class="conti">
       <p-tree  [value]="files" selectionMode="single" (onNodeSelect)="nodeSelect($event)"></p-tree>
   </div>
+
+
+
   <div id="block" class="conti">
+      <br/>
 
-      <div fxLayout="row" class="col-md-4 mb-3"  *ngFor="let game of TreeScope">
+      <div class="form-row"> 
+      <div class="col-md-4 mb-3"  *ngFor="let game of TreeScope">
           <div class="card text-center">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-              {{game.label}}
-            </div>
             <img class="card-img-top" [src]="game.img_url">
-            <div class="card-body">
-          </div>
-        </div>
+            <div  class="card-header" style="background-color: rgb(255, 174, 0);">
+              <strong>{{game.label}}</strong>
+            </div>
+        </div>  
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </div>
 
 
 
