@@ -1,6 +1,6 @@
 #info{
     width: 750px;
-    height: 150px;
+    height: 100px;
 }
 
 #tbc{
@@ -8,20 +8,20 @@
     grid-template-columns: 1fr 3fr;
     grid-column-gap: 0px;
     width: 750px;
-    height: 705px;
+    height: 305px;
 }
 
 #tree{
     width: 100%;
     height: 100%;
     height: 700px;
-    max-height: 700px;
+    max-height: 300;
 }
 
 #block{
     display:block;
     width: 100%;
-    height: 700px;
+    height: 300;
     max-height: 700px;
     overflow: scroll;
     padding-right: 5px;
@@ -30,6 +30,57 @@
 
 #controls{
     width: 750px;
-    height: 150px;
+    height: 50px;
 }
+
+.modifier{
+    margin: auto;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(48, 175, 16);
+    background-color: rgb(107, 221, 177);
+
+    width: 100%;
+    height: 100%;
+}
+
+.card-header{
+    font-size:20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#lados{
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-column-gap: 0px;
+    width: 750px;
+    height: 400px;
+}
+
+#izq{
+    width: 100%;
+    height: 100%;
+}
+
+#der{
+    width: 100%;
+    height: 100%;
+}
+
+.space{
+    margin-bottom: 5px;
+}
+
+.input-group-text{
+    width: 95px;
+}
+
+textarea {
+    resize: none;
+}
+
+
+
 

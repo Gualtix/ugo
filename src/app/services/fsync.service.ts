@@ -30,4 +30,8 @@ export class FsyncService {
   getFSJson(user_id: string) {
     return this.http.post(`${this.API_URI}/sync/pull_fs`, {usid: user_id});
   }
+
+  makeFSE_Change(fse_info:any){
+    return this.http.post(`${this.API_URI}/fsdb/fschanges`,fse_info);
+  }
 }

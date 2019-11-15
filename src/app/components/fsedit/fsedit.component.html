@@ -4,9 +4,6 @@
     
     <div class="form-row">
 
-
-
-
       <div class="col-md-4 mb-3">
         <div class="input-group" >
           <div class="input-group-prepend" >
@@ -102,6 +99,8 @@
       </div>
     </div>
 
+    
+
 
 
 
@@ -112,7 +111,169 @@
   </div>
 </div>
 <br/>
-<div id="controls" class="conti">
-  <button class="btn btn-primary" >Log Out</button>
+
+<div id="lados" class="conti">
+  <div id="izq" class="conti">
+    
+ 
+        <div id="name" class="input-group space" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(240, 26, 80); color: black;" id="inputGroupPrepend">
+              <strong>Nombre:</strong>
+            </span>
+          </div>
+          <input type="text" readonly class="form-control" [(ngModel)] = "FSE_name">
+        </div>
+    
+
+    <div class="input-group space" >
+      <div class="input-group-prepend" >
+        <span class="input-group-text" style="background-color:rgb(240, 26, 80); color: black;" id="inputGroupPrepend">
+          <strong>Propietario:</strong>
+        </span>
+      </div>
+      <input type="text" readonly class="form-control" [(ngModel)] = "owner_name">
+    </div>
+
+
+    <div class="input-group  space">
+      <div class="input-group-prepend" >
+        <span class="input-group-text" style="background-color:rgb(240, 26, 80); color: black;" id="inputGroupPrepend">
+          <strong>UGO:</strong>
+        </span>
+      </div>
+      <input type="text" readonly class="form-control" [(ngModel)] = "ugo">
+    </div>
+
+    <div class="input-group space" >
+      <div class="input-group-prepend" >
+        <span class="input-group-text" style="background-color:rgb(240, 26, 80); color: black;" id="inputGroupPrepend">
+          <strong>Path:</strong>
+        </span>
+      </div>
+      <input type="text" readonly class="form-control" [(ngModel)] = "abs_path">
+    </div>
+
+
+
+    <div class="input-group space" >
+      <div class="input-group-prepend" >
+        <span class="input-group-text" style="background-color:rgb(240, 26, 80); color: black;" id="inputGroupPrepend">
+          <strong>Contenido:</strong>
+        </span>
+      </div>
+      <textarea rows="7" type="text" readonly class="form-control" [(ngModel)] = "txt">
+
+      </textarea>
+    </div>
+
+    <div class="dropdown" style="float: right;">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Realizar Cambios
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" (click)="click_renombrar()" type="button">Renombrar</button>
+        <button class="dropdown-item" (click)="click_eliminar()" type="button">Eliminar</button>
+        <button class="dropdown-item" (click)="click_copiar()" type="button">Copiar</button>
+        <button class="dropdown-item" (click)="click_mover()" type="button">Mover</button>
+        <button class="dropdown-item" (click)="click_newfolder()" type="button">Crear Carpeta</button>
+        <button class="dropdown-item" (click)="click_newfile()" type="button">Crear Archivo</button>
+        <button class="dropdown-item" (click)="click_editar()" type="button">Editar</button>
+      </div>
+    </div>
+
+
 </div>
-<br/>
+
+  <div id="der" class="conti">
+
+    <div id="html_renombrar" class="modifier">
+
+      <div class="card text-white bg-danger" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Renombrar</strong>
+        </div>
+        <div class="card-body">
+
+            <div id="name" class="input-group space" >
+              <div class="input-group-prepend" >
+                <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                  <strong>Nombre:</strong>
+                </span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)] = "new_name">
+            </div>
+
+            <button type="button" (click)="renombrar_confirm()" class="btn btn-primary">Confirmar</button>
+
+        </div>
+      </div>
+      
+    </div>
+    
+    
+    <div id="html_eliminar" class="modifier">
+    
+      <div class="card text-white bg-info" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Eliminar</strong>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>{{about}}</strong></p>
+        </div>
+      </div>
+    
+    </div>
+    
+    
+    <div id="html_copiar" class="modifier">
+      <div class="card text-white bg-warning" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Copiar</strong>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>{{about}}</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="html_mover" class="modifier">
+      <div class="card text-white bg-success" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Mover</strong>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>{{about}}</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="html_editar" class="modifier">
+      <div class="card text-white bg-success" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Editar</strong>
+        </div>
+        <div class="card-body">
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>Contenido:</strong>
+              </span>
+            </div>
+            <textarea rows="7" type="text" class="form-control" [(ngModel)] = "newtxt">
+
+            </textarea>
+          </div>
+
+          <button type="button" (click)="editar_confirm()" class="btn btn-primary">Confirmar</button>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<br>
