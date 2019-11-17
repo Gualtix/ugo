@@ -23,13 +23,16 @@ export class FseditComponent implements OnInit {
   Montaje   :string = "";
   Disco     :string = "";
   Particion :string = "";
+  Part_ID   :string = "";
   Roll      :string = "";
   Cliente   :string = "";
+
 
   TreeScope :any = [];
 
   //FSElement -------------------------------------------------------------------------------------------
   ugo         :string = "";
+  new_ugo     :string = "";
   owner_name  :string = "";
   FSE_name    :string = "";
   origin_name :string = "";
@@ -69,6 +72,7 @@ export class FseditComponent implements OnInit {
 
     this.Disco     = Params[0];
     this.Particion = Params[1];
+    this.Part_ID   = this.Disco+"#"+this.Particion;
     this.Cliente = this.UserLogged.NOMBRE;
     if(this.UserLogged.FK_ROLEID_ID == 0){
       this.Roll = 'Usuario';
@@ -134,9 +138,14 @@ export class FseditComponent implements OnInit {
   }
 
   nodeSelect(evt: any): void {
+
+    this.hide_all();
+    this.cleanInfo();
+
     this.TreeScope = [];
     this.setElementInfo(evt.node);
     this.SelectedNode = evt.node;
+    this.newtxt = this.txt;
     //console.log(evt.node.label);
     let Ch = evt.node.children;
     let i = 0;
@@ -145,18 +154,9 @@ export class FseditComponent implements OnInit {
       this.TreeScope.push({label:Ch[i].label,type:Ch[i].type,img_url:Ch[i].img_url});
       i++;
     }
-
-    //console.log(evt.node);
   }
 
-  //Util --------------------------------------------------------------------------------------------
-  hide_all(){
-    document.getElementById("html_renombrar").style.display = "none";
-    document.getElementById("html_eliminar").style.display = "none";
-    document.getElementById("html_copiar").style.display = "none"; 
-    document.getElementById("html_mover").style.display = "none"; 
-    document.getElementById("html_editar").style.display = "none"; 
-  }
+
 
   
   //Clean -------------------------------------------------------------------------------------------
@@ -164,6 +164,7 @@ export class FseditComponent implements OnInit {
 
     this.TreeScope = [];
     this.ugo         = "";
+    this.new_ugo     = "";
     this.owner_name  = "";
     this.FSE_name    = "";
     this.origin_name = "";
@@ -184,49 +185,18 @@ export class FseditComponent implements OnInit {
   //Validate --------------------------------------------------------------------------------------------------
   val_sys(cmd:string){
 
-    if(this.FSE_name == ""){
-      alert("Seleccione un Folder o Archivo");
-      return 0;
-    }
-
-    if(this.FSE_name == "/"){
-      alert("El Folder / NO puede Modificarse");
-      return 0;
-    }
-
-    if(this.FSE_name == "users.txt"){
-      alert("El Archivo users.txt NO puede Modificarse");
-      return 0;
-    }
-
-
     //rename ------------------------------------------------------------------------------
     if(cmd == "rename"){
       if(this.new_name == ""){
         alert("El Nuevo Nombre esta en Blanco");
         return 0;
       }
-
-      //console.log(this.SelectedNode.fid);
-      /* Ya existe el mismo nombre
-      let i = 0;
-      let n = this.SelectedNode.children.length;
-      while(i < n){
-        let tmp = this.SelectedNode.children[i].label;
-        if(tmp == this.FSE_name){
-          alert("Ya Existe una Carpeta con ese Nombre");
-          return;
-        }
-        i++;
-      }
-      */
-
     }
 
-    //edit ------------------------------------------------------------------------------
-    if(cmd == "edit"){
-      if(this.SelectedNode.type == "folder"){
-        alert("No se puede Editar un Folder");
+    //newfile
+    if(cmd == "newfile"){
+      if(this.new_name == ""){
+        alert("El Nuevo Nombre esta en Blanco");
         return 0;
       }
     }
@@ -235,6 +205,44 @@ export class FseditComponent implements OnInit {
     
   }
   //Confimr --------------------------------------------------------------------------------------------------
+  newfile_confirm(){
+    let rs = this.val_sys("newfile"); 
+    if(rs == 0){
+      return;
+    }
+
+    this.FSY.makeFSE_Change
+    (
+      {
+        op:"newfile",
+        new_name:this.new_name+".txt",
+        tipo:"file",
+        newtxt:this.newtxt,
+        new_ugo:this.new_ugo,
+        part_id:this.Part_ID,
+        owner_id:this.UserLogged.FK_GRUPO_ID,
+        fid:this.SelectedNode.id    
+      }
+    ).subscribe
+      (
+        res => {
+          this.getFSJSon(this.root_id); 
+          //console.log(res);     
+        },
+        err => console.error(err)
+      );
+
+    alert("Nuevo Archivo Creado Exitosamente")
+
+    this.cleanInfo();
+    this.hide_all(); 
+
+  }
+
+  newfolder_confirm(){
+
+  }
+  
   editar_confirm(){
     let rs = this.val_sys("edit"); 
     if(rs == 0){
@@ -274,7 +282,7 @@ export class FseditComponent implements OnInit {
       {
         op:"rename",
         fse_id:this.SelectedNode.id,
-        new_name:this.new_name
+        new_name:this.new_name+".txt"
       }
     ).subscribe
       (
@@ -290,22 +298,57 @@ export class FseditComponent implements OnInit {
     this.hide_all(); 
   }
 
+
   //Click ----------------------------------------------------------------------------------------
   click_newfolder(){
-    this.hide_all();
-    document.getElementById("html_newfolder").style.display = "block";
+    //this.hide_all();
+    //document.getElementById("html_newfolder").style.display = "block";
   }
-
+ 
   click_newfile(){
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Folder");
+      return;
+    }
+    if(this.SelectedNode.type == "file"){
+      alert("Tiene que Seleccionar un Folder");
+      return;
+    }
+    this.new_ugo = "664";
     this.hide_all();
     document.getElementById("html_newfile").style.display = "block";
   }
+
   click_renombrar(){
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Archivo / Folder");
+      return;
+    }
+    if(this.SelectedNode.label == "/"){
+      alert("El Folder: / NO puede Modificarse");
+      return 0;
+    }
+    if(this.SelectedNode.label == "users.txt"){
+      alert("El Archivo: users.txt NO puede Modificarse");
+      return 0;
+    }
     this.hide_all();
     document.getElementById("html_renombrar").style.display = "block";
   }
 
   click_eliminar(){
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Archivo / Folder");
+      return;
+    }
+    if(this.SelectedNode.label == "/"){
+      alert("El Folder: / NO puede Modificarse");
+      return 0;
+    }
+    if(this.SelectedNode.label == "users.txt"){
+      alert("El Archivo: users.txt NO puede Modificarse");
+      return 0;
+    }
     this.hide_all();
     document.getElementById("html_eliminar").style.display = "block";
   }
@@ -321,7 +364,32 @@ export class FseditComponent implements OnInit {
   }
 
   click_editar(){
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Archivo");
+      return;
+    }
+    if(this.SelectedNode.type == "folder"){
+      alert("Tiene que Seleccionar un Archivo");
+      return 0;
+    }
+    if(this.SelectedNode.label == "users.txt"){
+      alert("El Archivo: users.txt NO puede Modificarse");
+      return 0;
+    }
     this.hide_all();
     document.getElementById("html_editar").style.display = "block";
+    this.newtxt = this.txt;
   }
+
+  //Util --------------------------------------------------------------------------------------------
+  hide_all(){
+    document.getElementById("html_renombrar").style.display = "none";
+    document.getElementById("html_eliminar").style.display = "none";
+    document.getElementById("html_copiar").style.display = "none"; 
+    document.getElementById("html_mover").style.display = "none"; 
+    document.getElementById("html_editar").style.display = "none"; 
+    //document.getElementById("html_newfolder").style.display = "none"; 
+    document.getElementById("html_newfile").style.display = "none"; 
+  }
+
 }

@@ -1,7 +1,6 @@
 <br/>
 <div id="info" class="conti">
 
-    
     <div class="form-row">
 
       <div class="col-md-4 mb-3">
@@ -176,11 +175,11 @@
         <button class="dropdown-item" (click)="click_eliminar()" type="button">Eliminar</button>
         <button class="dropdown-item" (click)="click_copiar()" type="button">Copiar</button>
         <button class="dropdown-item" (click)="click_mover()" type="button">Mover</button>
-        <button class="dropdown-item" (click)="click_newfolder()" type="button">Crear Carpeta</button>
-        <button class="dropdown-item" (click)="click_newfile()" type="button">Crear Archivo</button>
+        <button class="dropdown-item" (click)="click_newfolder()" type="button">Nueva Carpeta</button>
+        <button class="dropdown-item" (click)="click_newfile()" type="button">Nuevo Archivo</button>
         <button class="dropdown-item" (click)="click_editar()" type="button">Editar</button>
       </div>
-    </div>
+    </div> 
 
 
 </div>
@@ -272,8 +271,56 @@
       </div>
     </div>
 
+    <div id="html_newfile" class="modifier">
+      <div class="card text-white bg-primary mb-3" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Nuevo Archivo</strong>
+        </div>
+        <div class="card-body">
+
+          
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>Nombre:</strong>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)] = "new_name">
+          </div>
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>UGO:</strong>
+              </span>
+            </div>  
+            <input type="text" class="form-control" [(ngModel)] = "new_ugo" onkeyup="if(parseInt(this.value)>777){ this.value = 777; return false; } if(parseInt(this.value)<0){this.value = 0; return false;}">
+            <!--
+            <input type="number" class="form-control" onkeypress="return this.value.length < 3;" oninput="if(this.value.length>=3) { this.value = this.value.slice(0,3); }">
+            -->
+          </div> 
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>Contenido:</strong>
+              </span>
+            </div>
+            <textarea rows="7" type="text" class="form-control" [(ngModel)] = "newtxt">
+
+            </textarea>
+          </div>
+
+          <button type="button" (click)="newfile_confirm()" class="btn btn-dark">Confirmar</button>
+
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 </div>
-
 
 <br>
