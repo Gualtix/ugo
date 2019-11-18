@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule} from '@angular/router';
 
 import { WelcomeComponent } from '../components/welcome/welcome.component';
-import { FseditComponent} from '../components/fsedit/fsedit.component';
+import { FseditComponent } from '../components/fsedit/fsedit.component';
+import { ReportsComponent } from  '../components/reports/reports.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'fsedit',
     component: FseditComponent
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent
   }
 ];
 

@@ -1,3 +1,177 @@
-<p>
-  reports works!
-</p>
+<br/>
+<div class="conti ups" style="width: 750px;">
+  <div id="html_mover" class="modifier">
+    <div class="card text-white bg-success align-items-center" style="width: 100%; background-color: crimson !important;">
+      <div class="card-header">
+        <strong>R E P O R T E S</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+<div class="conti deslit" style="width: 750px;">
+
+  <div class="dropdown" style="margin-bottom: 5px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Seleccionar Tipo
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      <button class="dropdown-item" (click)="click_rp_uno()" type="button">
+        <strong>Listado de todos los usuarios nacidos arriba un X año</strong> 
+      </button>
+      <button class="dropdown-item" (click)="click_rp_dos()"  type="button"> 
+        <strong>Listado de Clientes que han realizado una modificación en X carpeta en un rango de fechas de Y hasta Z</strong> 
+      </button>
+      <button class="dropdown-item" (click)="click_rp_tres()"     type="button"> 
+        <strong>Listado de clientes registrados en una Y fecha, y el número de carpetas y archivos a los cuales tiene acceso</strong> 
+      </button>
+      <button class="dropdown-item" (click)="click_rp_bitacora()"    type="button"> 
+        <strong>Bitacora de Cambios Realizados</strong> 
+      </button>
+    </div>
+  </div> 
+
+
+
+  <div id="rp_uno" class="modifier">
+    <div class="card text-white bg-success" style="width: 100%; background-color: rgb(219, 78, 13) !important;">
+      <div class="card-header">
+        <strong>Listado de todos los usuarios nacidos arriba un X año</strong>
+      </div>
+      <div class="card-body">
+
+
+        <div id="name" class="input-group space" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+              <strong>Año X:</strong>
+            </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)] = "dest_path">
+
+        </div>
+
+        <button type="button" (click)="mover_confirm()" class="btn btn-dark" style="margin-top: 5px;">Consultar</button>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="rp_dos" class="modifier">
+    <div class="card text-white bg-success" style="width: 100%; background-color: rgb(7, 133, 28) !important;">
+      <div class="card-header">
+        <strong>Listado de Clientes que han realizado una modificación en X carpeta en un rango de fechas de Y hasta Z</strong>
+      </div>
+      <div class="card-body">
+
+
+        <div id="name" class="input-group space" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+              <strong>Modificacion X:</strong>
+            </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)] = "dest_path">
+        </div>
+
+        <div id="name" class="input-group space" style="margin-top: 5px;">
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+              <strong>Fecha Y:</strong>
+            </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)] = "dest_path">
+        </div>
+
+        <div id="name" class="input-group space" style="margin-top: 5px;" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+              <strong>Fecha Z:</strong>
+            </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)] = "dest_path">
+        </div>
+        
+        <button type="button" (click)="mover_confirm()" class="btn btn-dark" style="margin-top: 5px;">Consultar</button>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="rp_tres" class="modifier">
+    <div class="card text-white bg-success" style="width: 100%; background-color: rgb(9, 85, 161) !important;">
+      <div class="card-header">
+        <strong>Listado de clientes registrados en una Y fecha, y el número de carpetas y archivos a los cuales tiene acceso</strong>
+      </div>
+      <div class="card-body">
+
+        <div id="name" class="input-group space" >
+          <div class="input-group-prepend" >
+            <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+              <strong>Fecha Y:</strong>
+            </span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)] = "dest_path">
+        </div>
+        
+        <button type="button" (click)="mover_confirm()" class="btn btn-dark" style="margin-top: 5px;">Consultar</button>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<br/>
+
+<div class="conti ufc" style="width: 750px;">
+  <div id="html_mover" class="modifier">
+    <div class="card text-white bg-success align-items-center" style="width: 100%; background-color: rgb(133, 9, 145) !important;">
+      <div class="card-header">
+        <strong>R E S U L T A D O S</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br/>
+
+<div id="tabla_resultados" class="conti" style="width: 750px; height: 95px;">
+    
+  <table class="table table-striped table-dark">
+      <thead>
+          <tr>
+              <th>Row</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>1</td>
+              <td>Clark</td>
+              <td>Kent</td>
+              <td>clarkkent@mail.com</td>
+          </tr>
+          <tr>
+              <td>2</td>
+              <td>John</td>
+              <td>Carter</td>
+              <td>johncarter@mail.com</td>
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Peter</td>
+              <td>Parker</td>
+              <td>peterparker@mail.com</td>
+          </tr>            
+      </tbody>
+  </table>
+
+</div>
+
+  

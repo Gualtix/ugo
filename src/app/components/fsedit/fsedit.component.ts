@@ -3,6 +3,7 @@ import { TreeNode } from 'primeng/api';
 import { FsyncService } from '../../services/fsync.service';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-fsedit',
@@ -35,10 +36,13 @@ export class FseditComponent implements OnInit {
   new_ugo     :string = "";
   owner_name  :string = "";
   FSE_name    :string = "";
+
   origin_name :string = "";
   origin_id   :string = "";
+
   dest_name   :string = "";
   dest_id     :string = "";
+  dest_path   :string = "";
   txt         :string = "";
 
   abs_path:string  = "";
@@ -49,6 +53,9 @@ export class FseditComponent implements OnInit {
   root_id: string = "";
 
   newtxt: string = "";
+
+  DestNode:any = "";
+  SFlag: boolean = false;
   
 
 
@@ -60,8 +67,8 @@ export class FseditComponent implements OnInit {
     let userid = this.data['userlogged'];
     let Params = userid.split('#');
     this.root_id = Params[0]+"#"+Params[1]+"#"+"0"; 
-    this.getFSJSon(this.root_id);
     this.getUser(userid);
+    this.getFSJSon(this.root_id);
     this.hide_all();
   }
 
@@ -105,17 +112,18 @@ export class FseditComponent implements OnInit {
   }
 
   getFSJSon(id:string){
+    console.log("Antes de INgreae");
     this.FSY.getFSJson(id)
       .subscribe(
         res => {
           this.JSonTree = (<any>res).dt;
           this.files = this.JSonTree;
+          console.log((<any>res).dt);
+          console.log("Ingreso");
         },
         err => console.error(err)
       );
   }
-
-  
 
   saveInLocal(key, val): void {
     //console.log('recieved= key:' + key + 'value:' + val);
@@ -138,6 +146,22 @@ export class FseditComponent implements OnInit {
   }
 
   nodeSelect(evt: any): void {
+
+    if(this.SFlag){
+      this.DestNode  = evt.node;
+      this.SFlag     = false;
+      this.dest_path = this.DestNode.abs_path;
+
+      let rs = this.val_sys("move"); 
+      if(rs == 0){
+        this.SFlag    = true;
+        this.dest_path = "";
+        this.DestNode = null;
+      }else{
+        this.SFlag    = false;
+      }
+      return;
+    }
 
     this.hide_all();
     this.cleanInfo();
@@ -176,7 +200,11 @@ export class FseditComponent implements OnInit {
     this.abs_path    = "";
     this.new_name    = "";
 
+    this.dest_path = "";
+    this.SFlag = false;
+
     this.SelectedNode = null;
+    this.DestNode = null;
 
     this.newtxt = "";
   
@@ -184,6 +212,55 @@ export class FseditComponent implements OnInit {
 
   //Validate --------------------------------------------------------------------------------------------------
   val_sys(cmd:string){
+
+    //move ------------------------------------------------------------------------------
+    if(cmd == "move"){
+      if(this.DestNode == null){
+        alert("Debe Seleccionar el Folder Destino");
+        return 0;
+      }
+
+      if(this.DestNode.type == 'file'){
+        alert("El Destino NO Puede ser un Archivo");
+        return 0;
+      }
+
+      if(this.SelectedNode.id == this.DestNode.id){
+        alert("No puede seleccionar como Destino el mismo Folder de Origen");
+        return 0;
+      }
+
+      console.log(this.SelectedNode);
+      console.log(this.DestNode);
+
+      if(this.SelectedNode.fid_path == "" &&  this.DestNode.abs_path == "/"){
+        alert("El Folder Destino NO cambia la Ubicacion");
+        return 0;
+      }
+
+      if(this.SelectedNode.fid_path == this.DestNode.abs_path){
+
+        alert("El Folder Destino NO cambia la Ubicacion");
+        return 0;
+      }
+
+      let i = 0;
+      let vl: boolean = false;
+      let Params = this.DestNode.abs_path.split('/');
+      let n = Params.length;
+      while(i < n){
+        if(this.SelectedNode.label == Params[i]){
+          vl = true;
+        }
+        i++;
+      }
+
+      if(vl){
+        alert("Folder Destino Invalido");
+        return 0;
+      }
+    }
+
 
     //rename ------------------------------------------------------------------------------
     if(cmd == "rename"){
@@ -201,10 +278,74 @@ export class FseditComponent implements OnInit {
       }
     }
 
+    //newfolder
+    if(cmd == "newfolder"){
+      if(this.new_name == ""){
+        alert("El Nuevo Nombre esta en Blanco");
+        return 0;
+      }
+    }
+
     return 1;
     
   }
   //Confimr --------------------------------------------------------------------------------------------------
+  eliminar_confirm(){
+    this.FSY.makeFSE_Change
+    (
+      {
+        op:"delete",
+        id:this.SelectedNode.id
+      }
+    ).subscribe
+      (
+        res => {
+          this.getFSJSon(this.root_id); 
+          //console.log(res);     
+        },
+        err => console.error(err)
+      );
+
+    alert("Elemento Eliminado Correctamente")
+
+    this.cleanInfo();
+    this.hide_all(); 
+  }
+
+  newfolder_confirm(){
+    let rs = this.val_sys("newfolder"); 
+    if(rs == 0){
+      return;
+    }
+
+    this.FSY.makeFSE_Change
+    (
+      {
+        op:"newfolder",
+        new_name:this.new_name,
+        tipo:"folder",
+        newtxt:null,
+        new_ugo:this.new_ugo,
+        part_id:this.Part_ID,
+        owner_id:this.UserLogged.FK_GRUPO_ID,
+        fid:this.SelectedNode.id    
+      }
+    ).subscribe
+      (
+        res => {
+          this.getFSJSon(this.root_id); 
+          //console.log(res);     
+        },
+        err => console.error(err)
+      );
+
+    alert("Nuevo Folder Creado Exitosamente")
+
+    this.cleanInfo();
+    this.hide_all(); 
+
+  }
+
   newfile_confirm(){
     let rs = this.val_sys("newfile"); 
     if(rs == 0){
@@ -236,10 +377,6 @@ export class FseditComponent implements OnInit {
 
     this.cleanInfo();
     this.hide_all(); 
-
-  }
-
-  newfolder_confirm(){
 
   }
   
@@ -277,12 +414,18 @@ export class FseditComponent implements OnInit {
       return;
     }
 
+    let full_name:string = this.new_name;
+
+    if(this.SelectedNode.type == 'file'){
+      full_name = full_name+".txt";
+    }
+
     this.FSY.makeFSE_Change
     (
       {
         op:"rename",
         fse_id:this.SelectedNode.id,
-        new_name:this.new_name+".txt"
+        new_name:full_name
       }
     ).subscribe
       (
@@ -298,11 +441,49 @@ export class FseditComponent implements OnInit {
     this.hide_all(); 
   }
 
+  mover_confirm(){
+
+    if(this.DestNode != null){
+      this.FSY.makeFSE_Change
+      (
+        {
+          op:"move",
+          source_id:this.SelectedNode.id,
+          dest_id:this.DestNode.id
+        }
+      ).subscribe
+        (
+          res => {
+            this.getFSJSon(this.root_id); 
+          },
+          err => console.error(err)
+        );
+
+      alert("Elemento Movido Exitosamente")
+
+      this.cleanInfo();
+      this.hide_all(); 
+    }
+  }
+
+  select_dest(){
+    this.SFlag = true;
+  }
+
 
   //Click ----------------------------------------------------------------------------------------
   click_newfolder(){
-    //this.hide_all();
-    //document.getElementById("html_newfolder").style.display = "block";
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Folder");
+      return;
+    }
+    if(this.SelectedNode.type == "file"){
+      alert("Tiene que Seleccionar un Folder");
+      return;
+    }
+    this.new_ugo = "664";
+    this.hide_all();
+    document.getElementById("html_newfolder").style.display = "block";
   }
  
   click_newfile(){
@@ -359,6 +540,18 @@ export class FseditComponent implements OnInit {
   }
 
   click_mover(){
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Archivo / Folder");
+      return;
+    }
+    if(this.SelectedNode.label == "/"){
+      alert("El Folder: / NO puede Modificarse");
+      return 0;
+    }
+    if(this.SelectedNode.label == "users.txt"){
+      alert("El Archivo: users.txt NO puede Modificarse");
+      return 0;
+    }
     this.hide_all();
     document.getElementById("html_mover").style.display = "block";
   }
@@ -388,7 +581,7 @@ export class FseditComponent implements OnInit {
     document.getElementById("html_copiar").style.display = "none"; 
     document.getElementById("html_mover").style.display = "none"; 
     document.getElementById("html_editar").style.display = "none"; 
-    //document.getElementById("html_newfolder").style.display = "none"; 
+    document.getElementById("html_newfolder").style.display = "none"; 
     document.getElementById("html_newfile").style.display = "none"; 
   }
 

@@ -171,13 +171,13 @@
         Realizar Cambios
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-        <button class="dropdown-item" (click)="click_renombrar()" type="button">Renombrar</button>
-        <button class="dropdown-item" (click)="click_eliminar()" type="button">Eliminar</button>
-        <button class="dropdown-item" (click)="click_copiar()" type="button">Copiar</button>
-        <button class="dropdown-item" (click)="click_mover()" type="button">Mover</button>
-        <button class="dropdown-item" (click)="click_newfolder()" type="button">Nueva Carpeta</button>
-        <button class="dropdown-item" (click)="click_newfile()" type="button">Nuevo Archivo</button>
-        <button class="dropdown-item" (click)="click_editar()" type="button">Editar</button>
+        <button class="dropdown-item" (click)="click_renombrar()" type="button"> <strong>Renombrar</strong> </button>
+        <button class="dropdown-item" (click)="click_eliminar()"  type="button"> <strong>Eliminar</strong> </button>
+        <button class="dropdown-item" (click)="click_copiar()"    type="button"> <strong>Copiar</strong> </button>
+        <button class="dropdown-item" (click)="click_mover()"     type="button"> <strong>Mover</strong> </button>
+        <button class="dropdown-item" (click)="click_newfolder()" type="button"> <strong>Nueva Carpeta</strong> </button>
+        <button class="dropdown-item" (click)="click_newfile()"   type="button"> <strong>Nuevo Archivo</strong> </button>
+        <button class="dropdown-item" (click)="click_editar()"    type="button"> <strong>Editar</strong> </button>
       </div>
     </div> 
 
@@ -218,9 +218,9 @@
           <strong>Eliminar</strong>
         </div>
         <div class="card-body">
-          <p class="card-text"><strong>{{about}}</strong></p>
+            <button type="button" (click)="eliminar_confirm()" class="btn btn-primary">Confirmar</button>
         </div>
-      </div>
+      </div> 
     
     </div>
     
@@ -236,16 +236,7 @@
       </div>
     </div>
 
-    <div id="html_mover" class="modifier">
-      <div class="card text-white bg-success" style="width: 100%; ">
-        <div class="card-header">
-          <strong>Mover</strong>
-        </div>
-        <div class="card-body">
-          <p class="card-text"><strong>{{about}}</strong></p>
-        </div>
-      </div>
-    </div>
+    
 
     <div id="html_editar" class="modifier">
       <div class="card text-white bg-success" style="width: 100%; ">
@@ -317,6 +308,75 @@
         </div>
       </div>
     </div>
+
+
+    <div id="html_newfolder" class="modifier">
+      <div class="card text-white bg-dark mb-3" style="width: 100%; ">
+        <div class="card-header">
+          <strong>Nueva Carpeta</strong>
+        </div>
+        <div class="card-body">
+
+          
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>Nombre:</strong>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)] = "new_name">
+          </div>
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>UGO:</strong>
+              </span>
+            </div>  
+            <input type="text" class="form-control" [(ngModel)] = "new_ugo" onkeyup="if(parseInt(this.value)>777){ this.value = 777; return false; } if(parseInt(this.value)<0){this.value = 0; return false;}">
+          </div> 
+
+          <button type="button" (click)="newfolder_confirm()" class="btn btn-light">Confirmar</button>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div id="html_mover" class="modifier">
+      <div class="card text-white bg-success" style="width: 100%; background-color: blueviolet !important;">
+        <div class="card-header">
+          <strong>Mover</strong>
+        </div>
+        <div class="card-body">
+
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>Destino:</strong>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)] = "dest_path">
+
+          </div>
+
+          <button id="mvid" type="button" (click)="select_dest()" class="btn btn-warning">Seleccionar</button>
+          <button type="button" (click)="mover_confirm()" class="btn btn-primary">Confirmar</button>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
 
 
 
