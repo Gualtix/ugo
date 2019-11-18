@@ -16,7 +16,6 @@
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 10px;
     width: 750px;
-    height: 375px;
     background-color: wheat;
 }
 
@@ -45,6 +44,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.lgbtn{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+}
+
+.input-group-text{
+    width: 95px;
+    font-weight: bold;
 }
 
 

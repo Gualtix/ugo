@@ -4,14 +4,19 @@ import * as $ from 'jquery';
 import { FsyncService } from '../../services/fsync.service';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
-import { Router } from '@angular/router';
+import { Router, UrlSerializer } from '@angular/router';
+import { User } from '../../models/mdf';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
+
+
 export class WelcomeComponent implements OnInit {
+
+  usr:User = new User();
 
   public data:any=[];
 
@@ -23,7 +28,7 @@ export class WelcomeComponent implements OnInit {
 
   public mision: string   = "El mejor sisma gestor de archivos";
   public vision: string   = "El mejor sisma gestor de archivos";
-  public about: string   = "El mejor sisma gestor de archivos";
+  public about: string    = "El mejor sisma gestor de archivos";
 
   public username: string = "";
   public password: string = "";
@@ -36,6 +41,8 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
     this.getWelcomeInfo();
+    this.hideall();
+    document.getElementById("html_login").style.display = "block";
   }
 
   getWelcomeInfo(){
@@ -59,7 +66,8 @@ export class WelcomeComponent implements OnInit {
     this.FSY.authenticate(this.username,this.password)
       .subscribe(
         res => {  
-          this.status = (<any>res).msg;
+          //this.status = (<any>res).msg;
+          alert((<any>res).msg);
           if((<any>res).ok == 1){
             this.saveInLocal("userlogged",(<any>res).id);
             this.router.navigateByUrl('/fsedit');
@@ -67,6 +75,38 @@ export class WelcomeComponent implements OnInit {
         },
         err => console.error(err)
       );
+  }
+
+  register(){
+
+    if(this.usr.nombre == ""){
+      alert("Nombre Invalido");
+      return;
+    }
+
+    if(this.usr.password == ""){
+      alert("Password Invalido");
+      return;
+    }
+
+    if(this.usr.nacimiento == ""){
+      alert("Fecha de Nacimiento Invalida");
+      return;
+    }
+
+    this.FSY.register(this.usr)
+      .subscribe(
+        res => {  
+          alert((<any>res).msg);
+          if((<any>res).ok == 1){
+            //this.saveInLocal("userlogged",(<any>res).id);
+            window.location.reload();
+            //this.router.navigateByUrl('/welcome');
+          }
+        },
+        err => console.error(err)
+      );
+      
   }
 
   saveInLocal(key, val): void {
@@ -80,4 +120,21 @@ export class WelcomeComponent implements OnInit {
     this.data[key]= this.storage.get(key);
     //console.log(this.data);
   }
+
+  hideall(){
+    document.getElementById("html_login").style.display = "none";
+    document.getElementById("html_registro").style.display = "none";
+  }
+
+  login_click(){
+    this.hideall();
+    document.getElementById("html_login").style.display = "block";
+  }
+
+  registro_click(){
+    this.hideall();
+    document.getElementById("html_registro").style.display = "block";
+  }
+
+
 }

@@ -15,22 +15,47 @@
       <img [src]=img_url style="height:100%; width:100%;">
   </div>
 </div>
-
 <br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div id="logvideo" class="conti">
   
   <div id="video" class="conti">
     <div class="embed-responsive embed-responsive-1by1">
+      <!--
       <iframe class="embed-responsive-item" [src]='getSaveVideo()' allowfullscreen></iframe>
+      -->
     </div>
   </div>
 
   <div id="log" class="conti">
 
   <div class="card text-white bg-info mb-3" style="height: 100%; width: 100%">
-    <div class="card-header" style="background-color: rgb(23, 113, 197)">Login</div>
-    <div class="card-body">
+    <div class="card-header" style="background-color: rgb(23, 113, 197)">
+
+      <div id="lgbtn">
+        <button type="button" (click)="login_click()"    class="btn btn-warning">Login</button>
+        <button type="button" (click)="registro_click()" class="btn btn-danger">Registro</button>
+      </div>
+      
+      
+    </div>
+    
+    <div id="html_login" class="card-body">
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -48,16 +73,54 @@
 
       <button type="button" (click)="authenticate()" class="btn btn-success" style="width: 100%">Ingesar</button>
 
-      <br/>
-      <br/>
+    </div>
 
+    <div id="html_registro" class="card-body">
 
-      <div class="alert alert-danger" role="alert">
-          <strong>{{status}}!</strong>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Nombre:</span>
+        </div>
+        <input type="text" [(ngModel)] = "usr.nombre" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Password:</span>
+        </div>
+        <input type="text" [(ngModel)] = "usr.password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">EMail:</span>
+        </div>
+        <input type="text" [(ngModel)] = "usr.email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       </div>
 
 
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Nacimiento:</span>
+        </div>
+        <input type="date" [(ngModel)] = "usr.nacimiento" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <button type="button" (click)="register()" class="btn btn-success" style="width: 100%">Registrar</button>
+
     </div>
+
   </div>
     
 
@@ -67,6 +130,29 @@
 
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br/>
 <div id="bottominfo" class="conti">
   <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">

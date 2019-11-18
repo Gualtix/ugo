@@ -154,11 +154,11 @@ export class FseditComponent implements OnInit {
 
       let rs = this.val_sys("move"); 
       if(rs == 0){
-        this.SFlag    = true;
+        this.SFlag     = true;
         this.dest_path = "";
-        this.DestNode = null;
+        this.DestNode  = null;
       }else{
-        this.SFlag    = false;
+        this.SFlag     = false;
       }
       return;
     }
@@ -327,7 +327,8 @@ export class FseditComponent implements OnInit {
         newtxt:null,
         new_ugo:this.new_ugo,
         part_id:this.Part_ID,
-        owner_id:this.UserLogged.FK_GRUPO_ID,
+        //owner_id:this.UserLogged.FK_GRUPO_ID,
+        owner_id:this.UserLogged.ID,
         fid:this.SelectedNode.id    
       }
     ).subscribe
