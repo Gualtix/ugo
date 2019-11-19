@@ -295,7 +295,15 @@ export class FseditComponent implements OnInit {
     (
       {
         op:"delete",
-        id:this.SelectedNode.id
+        id:this.SelectedNode.id,
+
+        cmd:"rem",
+        cmd_string:"rem -path="+this.SelectedNode.abs_path,
+        user_name:this.UserLogged.NOMBRE,
+        disk_name:this.Disco,
+        part_name:this.Particion,
+        part_id:this.Part_ID,
+        usr_id:this.UserLogged.ID
       }
     ).subscribe
       (
@@ -326,10 +334,16 @@ export class FseditComponent implements OnInit {
         tipo:"folder",
         newtxt:null,
         new_ugo:this.new_ugo,
-        part_id:this.Part_ID,
-        //owner_id:this.UserLogged.FK_GRUPO_ID,
         owner_id:this.UserLogged.ID,
-        fid:this.SelectedNode.id    
+        fid:this.SelectedNode.id,
+
+        cmd:"mkdir",
+        cmd_string:"mkdir -path="+this.SelectedNode.abs_path+"/"+this.new_name,
+        user_name:this.UserLogged.NOMBRE,
+        disk_name:this.Disco,
+        part_name:this.Particion,
+        part_id:this.Part_ID,
+        usr_id:this.UserLogged.ID
       }
     ).subscribe
       (
@@ -353,17 +367,25 @@ export class FseditComponent implements OnInit {
       return;
     }
 
-    this.FSY.makeFSE_Change
+    this.FSY.makeFSE_Change 
     (
       {
         op:"newfile",
+
         new_name:this.new_name+".txt",
         tipo:"file",
         newtxt:this.newtxt,
         new_ugo:this.new_ugo,
+        owner_id:this.UserLogged.ID,
+        fid:this.SelectedNode.id,
+ 
+        cmd:"mkfile",
+        cmd_string:"mkfile -path="+this.SelectedNode.abs_path+"/"+this.new_name+" -cont="+this.newtxt,
+        user_name:this.UserLogged.NOMBRE,
+        disk_name:this.Disco,
+        part_name:this.Particion,
         part_id:this.Part_ID,
-        owner_id:this.UserLogged.FK_GRUPO_ID,
-        fid:this.SelectedNode.id    
+        usr_id:this.UserLogged.ID
       }
     ).subscribe
       (
@@ -391,8 +413,17 @@ export class FseditComponent implements OnInit {
     (
       {
         op:"edit",
+
         fse_id:this.SelectedNode.id,
-        newtxt:this.newtxt
+        newtxt:this.newtxt,
+
+        cmd:"edit",
+        cmd_string:"edit -path="+this.SelectedNode.abs_path+" -cont="+this.newtxt,
+        user_name:this.UserLogged.NOMBRE,
+        disk_name:this.Disco,
+        part_name:this.Particion,
+        part_id:this.Part_ID,
+        usr_id:this.UserLogged.ID
       }
     ).subscribe
       (
@@ -459,7 +490,15 @@ export class FseditComponent implements OnInit {
         {
           op:"move",
           source_id:this.SelectedNode.id,
-          dest_id:this.DestNode.id
+          dest_id:this.DestNode.id,
+
+          cmd:"mv",
+          cmd_string:"mv -path="+this.SelectedNode.abs_path+" -dest="+this.DestNode.abs_path,
+          user_name:this.UserLogged.NOMBRE,
+          disk_name:this.Disco,
+          part_name:this.Particion,
+          part_id:this.Part_ID,
+          usr_id:this.UserLogged.ID
         }
       ).subscribe
         (
