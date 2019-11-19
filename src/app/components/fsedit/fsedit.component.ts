@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { FsyncService } from '../../services/fsync.service';
-import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
 import * as $ from 'jquery';
 
@@ -423,10 +423,19 @@ export class FseditComponent implements OnInit {
 
     this.FSY.makeFSE_Change
     (
-      {
+      { 
         op:"rename",
+        
+        new_name:full_name,
         fse_id:this.SelectedNode.id,
-        new_name:full_name
+
+        cmd:"ren",
+        cmd_string:"ren -path="+this.SelectedNode.abs_path+" -name="+full_name,
+        user_name:this.UserLogged.NOMBRE,
+        disk_name:this.Disco,
+        part_name:this.Particion,
+        part_id:this.Part_ID,
+        usr_id:this.UserLogged.ID
       }
     ).subscribe
       (

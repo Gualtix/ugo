@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FsyncService } from '../../services/fsync.service';
 
 @Component({
   selector: 'app-reports',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsComponent implements OnInit {
 
-  constructor() { }
+  JRList:any = [];
+  
+
+  constructor(private FSY:FsyncService) {
+
+  }
 
   ngOnInit() {
     this.hide_all();
@@ -15,6 +21,16 @@ export class ReportsComponent implements OnInit {
 
   click_rp_bitacora(){
     this.hide_all();
+    document.getElementById("tabla_resultados").style.display = "block"; 
+
+    this.FSY.fetchJournal().subscribe(
+      res => {
+        this.JRList = res;
+        console.log(res);
+      },
+      err => console.error(err)
+    );
+    
   }
 
   click_rp_uno(){
@@ -38,7 +54,6 @@ export class ReportsComponent implements OnInit {
     document.getElementById("rp_dos").style.display = "none";
     document.getElementById("rp_tres").style.display = "none"; 
     document.getElementById("tabla_resultados").style.display = "none"; 
-    
   }
 
 }

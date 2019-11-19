@@ -14,6 +14,10 @@ export class FsyncService {
     
   }
 
+  fetchJournal(){
+    return this.http.get(`${this.API_URI}/fetchJournal`);
+  }   
+
   authenticate(usn: string,psw:string){
     return this.http.post(`${this.API_URI}/user/authenticate`, {username: usn,password: psw});
   }

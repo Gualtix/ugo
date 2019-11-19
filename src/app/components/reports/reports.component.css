@@ -13,7 +13,7 @@
     overflow: hidden;
 }
 
-.deslit{
-    
-    
+#tabla_resultados{
+    overflow: scroll;
 }
+
