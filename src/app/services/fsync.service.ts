@@ -18,6 +18,18 @@ export class FsyncService {
     return this.http.get(`${this.API_URI}/fetchJournal`);
   }   
 
+  fetch_rp_uno(dt:string){
+    return this.http.post(`${this.API_URI}/fetch_rp_uno`,{date:dt});
+  } 
+  
+  fetch_rp_dos(fse:string,dty:string,dtz){
+    return this.http.post(`${this.API_URI}/fetch_rp_dos`,{FSE:fse,date_y:dty,date_z:dtz});
+  } 
+
+  fetch_rp_tres(dty:string){
+    return this.http.post(`${this.API_URI}/fetch_rp_tres`,{date_y:dty});
+  } 
+
   authenticate(usn: string,psw:string){
     return this.http.post(`${this.API_URI}/user/authenticate`, {username: usn,password: psw});
   }

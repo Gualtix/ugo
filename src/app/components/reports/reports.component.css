@@ -13,7 +13,11 @@
     overflow: hidden;
 }
 
-#tabla_resultados{
+#tabla_bitacora{
+    overflow: auto;
+}
+
+#tabla_rp_uno{
     overflow: auto;
 }
 

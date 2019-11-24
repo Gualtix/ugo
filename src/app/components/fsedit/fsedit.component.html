@@ -226,12 +226,26 @@
     
     
     <div id="html_copiar" class="modifier">
-      <div class="card text-white bg-warning" style="width: 100%; ">
+      <div class="card text-white bg-success" style="width: 100%; background-color: rgb(245, 53, 111) !important;">
         <div class="card-header">
           <strong>Copiar</strong>
         </div>
         <div class="card-body">
-          <p class="card-text"><strong>{{about}}</strong></p>
+
+
+          <div id="name" class="input-group space" >
+            <div class="input-group-prepend" >
+              <span class="input-group-text" style="background-color:rgb(221, 221, 221); color: black;" id="inputGroupPrepend">
+                <strong>Destino:</strong>
+              </span>
+            </div>
+            <input type="text" class="form-control" [(ngModel)] = "dest_path">
+
+          </div>
+
+          <button id="mvid" type="button" (click)="select_dest()" class="btn btn-warning">Seleccionar</button>
+          <button type="button" (click)="copiar_confirm()" class="btn btn-primary">Confirmar</button>
+
         </div>
       </div>
     </div>

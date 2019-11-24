@@ -303,7 +303,8 @@ export class FseditComponent implements OnInit {
         disk_name:this.Disco,
         part_name:this.Particion,
         part_id:this.Part_ID,
-        usr_id:this.UserLogged.ID
+        usr_id:this.UserLogged.ID,
+        FSE:this.SelectedNode.label
       }
     ).subscribe
       (
@@ -343,7 +344,8 @@ export class FseditComponent implements OnInit {
         disk_name:this.Disco,
         part_name:this.Particion,
         part_id:this.Part_ID,
-        usr_id:this.UserLogged.ID
+        usr_id:this.UserLogged.ID,
+        FSE:this.SelectedNode.label
       }
     ).subscribe
       (
@@ -385,7 +387,8 @@ export class FseditComponent implements OnInit {
         disk_name:this.Disco,
         part_name:this.Particion,
         part_id:this.Part_ID,
-        usr_id:this.UserLogged.ID
+        usr_id:this.UserLogged.ID,
+        FSE:this.SelectedNode.label
       }
     ).subscribe
       (
@@ -423,7 +426,8 @@ export class FseditComponent implements OnInit {
         disk_name:this.Disco,
         part_name:this.Particion,
         part_id:this.Part_ID,
-        usr_id:this.UserLogged.ID
+        usr_id:this.UserLogged.ID,
+        FSE:this.SelectedNode.label
       }
     ).subscribe
       (
@@ -466,7 +470,8 @@ export class FseditComponent implements OnInit {
         disk_name:this.Disco,
         part_name:this.Particion,
         part_id:this.Part_ID,
-        usr_id:this.UserLogged.ID
+        usr_id:this.UserLogged.ID,
+        FSE:this.SelectedNode.label
       }
     ).subscribe
       (
@@ -480,6 +485,46 @@ export class FseditComponent implements OnInit {
 
     this.cleanInfo();
     this.hide_all(); 
+  }
+
+  copiar_confirm(){
+    if(this.DestNode != null){
+      this.FSY.makeFSE_Change
+      (
+        {
+          op:"copy",
+          source_id:this.SelectedNode.id,
+          dest_id:this.DestNode.id,
+          new_name:this.SelectedNode.label,
+          newtxt:this.SelectedNode.txt,
+          ugo:this.SelectedNode.ugo,
+          part_id:this.Part_ID,
+          owner_id:this.SelectedNode.owner_id,
+          fid:this.DestNode.id,
+          type:this.SelectedNode.type,
+
+          cmd:"cp",
+          cmd_string:"cp -path="+this.SelectedNode.abs_path+" -dest="+this.DestNode.abs_path,
+          user_name:this.UserLogged.NOMBRE,
+          disk_name:this.Disco,
+          part_name:this.Particion,
+        
+          usr_id:this.UserLogged.ID,
+          FSE:this.SelectedNode.label
+        }
+      ).subscribe
+        (
+          res => {
+            this.getFSJSon(this.root_id); 
+          },
+          err => console.error(err)
+        );
+
+      alert("Elemento Copiado Exitosamente")
+
+      this.cleanInfo();
+      this.hide_all(); 
+    }
   }
 
   mover_confirm(){
@@ -498,7 +543,8 @@ export class FseditComponent implements OnInit {
           disk_name:this.Disco,
           part_name:this.Particion,
           part_id:this.Part_ID,
-          usr_id:this.UserLogged.ID
+          usr_id:this.UserLogged.ID,
+          FSE:this.SelectedNode.label
         }
       ).subscribe
         (
@@ -566,6 +612,8 @@ export class FseditComponent implements OnInit {
     document.getElementById("html_renombrar").style.display = "block";
   }
 
+  
+
   click_eliminar(){
     if(this.SelectedNode == null){
       alert("Tiene que Seleccionar un Archivo / Folder");
@@ -584,6 +632,18 @@ export class FseditComponent implements OnInit {
   }
 
   click_copiar(){
+    if(this.SelectedNode == null){
+      alert("Tiene que Seleccionar un Archivo / Folder");
+      return;
+    }
+    if(this.SelectedNode.label == "/"){
+      alert("El Folder: / NO puede Modificarse");
+      return 0;
+    }
+    if(this.SelectedNode.label == "users.txt"){
+      alert("El Archivo: users.txt NO puede Modificarse");
+      return 0;
+    }
     this.hide_all();
     document.getElementById("html_copiar").style.display = "block";
   }
